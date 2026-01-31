@@ -4,10 +4,12 @@ import MonoRouter from './routes/mono.route.js';
 import VigenerRouter from './routes/vigener.route.js';
 import RTRouter from './routes/rowTrans.router.js';
 import corsMiddleware from './Middleware/cors.middleware.js';
+import helmet from 'helmet';
 
 
 const app = express();
 app.use(corsMiddleware);
+app.use(helmet());
 app.use(express.json());
 app.use('/ceaser', CeaserRouter);
 app.use('/mono', MonoRouter);

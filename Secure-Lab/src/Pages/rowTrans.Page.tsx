@@ -39,12 +39,12 @@ function RowTransPage() {
     return (
         <div className="text-[var(--text-color)] flex flex-col items-center gap-12 [&>input]:border bg-[var(--background-color)] min-h-screen pb-10 ">
             {/* Heading */}
-            <h1 className="text-4xl font-bold mt-6">Row Transposition Cipher</h1>
+            <h1 className="text-4xl font-bold mt-6 text-center">Row Transposition Cipher</h1>
             {/* Description */}
-            <p className="text-xm font-bold w-300 text-center">The Row Transposition cipher is a type of transposition cipher that rearranges the characters of the plaintext into a grid or matrix based on a specified key. The plaintext is written out in rows, and then the columns are read in a specific order determined by the key to create the ciphertext. For example, if the key is '3142', the first column to be read would be the third column of the matrix, followed by the first, fourth, and second columns. This method of encryption does not alter the actual letters of the plaintext but changes their positions, making it more challenging to decipher without knowing the key. The Row Transposition cipher is relatively simple to implement but can be vulnerable to certain types of cryptanalysis if not used with additional security measures.</p>
-            <div className="flex flex-row gap-30">
+            <p className="text-xm font-bold text-justify text-xl text-justify max-w-3xl m-10">The Row Transposition cipher is a type of transposition cipher that rearranges the characters of the plaintext into a grid or matrix based on a specified key. The plaintext is written out in rows, and then the columns are read in a specific order determined by the key to create the ciphertext. For example, if the key is '3142', the first column to be read would be the third column of the matrix, followed by the first, fourth, and second columns. This method of encryption does not alter the actual letters of the plaintext but changes their positions, making it more challenging to decipher without knowing the key. The Row Transposition cipher is relatively simple to implement but can be vulnerable to certain types of cryptanalysis if not used with additional security measures.</p>
+            <div className="flex flex-col gap-30 md:flex-row md:gap-20">
                 {/* Encoding form */}
-                <form onSubmit={handleSubmit(encode)} className="flex flex-col items-center gap-4 [&>.input]:border [&>.input]:p-2 [&>.input]:rounded-md [&>span]:text-red-500 text-center text-sm [&>.input]:w-120 [&>span]:h-2 mb-4 [&>textarea]:min-h-24 [&>.input]:focus:border-[var(--primary-color)] [&>.input]:outline-none">
+                <form onSubmit={handleSubmit(encode)} className="flex flex-col items-center gap-4 [&>.input]:border [&>.input]:p-2 [&>.input]:rounded-md [&>span]:text-red-500 text-center text-sm [&>.input]:w-80 [&>.input]:placeholder:font-bold [&>span]:h-2 mb-4 [&>textarea]:min-h-24 [&>.input]:focus:border-[var(--primary-color)] [&>.input]:outline-none">
                     {/* Encoding form header */}
                     <h2 className="text-2xl font-bold">Encode</h2>
                     {/* Textarea for input */}
@@ -100,12 +100,12 @@ function RowTransPage() {
                     {/* Encode button */}
                     <button className="border font-bold text-xl b-2 border-[var(--primary-color)] text-[var(--text-color)] px-4 py-2 rounded-full hover:border-[var(--primary-color)] hover:text-[var(--card-background)] hover:rounded-full hover:bg-[var(--text-color)] mt-5" type="submit" disabled={encodeLoading}>{encodeLoading ? "ENCODING..." : "ENCODE"}</button>
                     {/* Encoded result display */}
-                    <div className="text-xl text-[var(--primary-color)] border p-5 rounded-md mt-4 w-120 max-h-25 min-h-24 overflow-x-auto  whitespace-pre-wrap break-words">
+                    <div className="text-xl text-[var(--primary-color)] border p-5 rounded-md mt-4 max-h-25 min-h-24 overflow-x-auto  whitespace-pre-wrap break-words">
                         {encoded ? encoded : "Ciphered text will appear here ..."}
                     </div>
                 </form>
                 {/* Decoding form */}
-                <form onSubmit={decodeHandleSubmit(decode)} className="flex flex-col items-center gap-4 [&>.input]:border [&>.input]:p-2 [&>.input]:rounded-md [&>span]:text-red-500 text-center text-sm [&>.input]:w-120 [&>span]:h-2 mb-4 [&>textarea]:min-h-24 [&>.input]:focus:border-[var(--primary-color)] [&>.input]:outline-none">
+                <form onSubmit={decodeHandleSubmit(decode)} className="flex flex-col items-center gap-4 [&>.input]:border [&>.input]:p-2 [&>.input]:rounded-md [&>span]:text-red-500 text-center text-sm [&>.input]:w-80 [&>.input]:placeholder:font-bold [&>span]:h-2 mb-4 [&>textarea]:min-h-24 [&>.input]:focus:border-[var(--primary-color)] [&>.input]:outline-none">
 
                     {/* Decoding form header */}
                     <h2 className="text-2xl font-bold">Decode</h2>
@@ -162,7 +162,7 @@ function RowTransPage() {
                     <span>{decodeErrors.key?.message?.toString()}</span>
                     {/* Decode button */}
                     <button className="border font-bold text-xl b-2 border-[var(--primary-color)] text-[var(--text-color)] px-4 py-2 rounded-full hover:border-[var(--primary-color)] hover:text-[var(--card-background)] hover:rounded-full hover:bg-[var(--text-color)]" type="submit" disabled={decodeLoading}>{decodeLoading ? "DECODING..." : "DECODE"}</button>
-                    <div className="text-xl text-[var(--primary-color)] border p-5 rounded-md mt-4 w-120 max-h-25 min-h-24 overflow-x-auto  whitespace-pre-wrap break-words">{decoded ? decoded : "Plain text will appear here..."}</div>
+                    <div className="text-xl text-[var(--primary-color)] border p-5 rounded-md mt-4 max-h-25 min-h-24 overflow-x-auto  whitespace-pre-wrap break-words">{decoded ? decoded : "Plain text will appear here..."}</div>
                 </form>
             </div>
             <style>
