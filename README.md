@@ -59,13 +59,15 @@ cd secureLab
 npm install
 ```
 
-3. Run backend
+3. You have to make .env file in both backend and frontend. In backend you have to add Frontend link and in frontend you have to add backend link.
+
+4. Run backend
 ```bash
 cd backend
 npm run dev
 ```
 
-4. Run frontend
+5. Run frontend
 ```bash
 cd Secure-Lab
 npm run dev
