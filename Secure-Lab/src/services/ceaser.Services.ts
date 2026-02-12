@@ -1,6 +1,7 @@
 const url = import.meta.env.VITE_BACKEND_URL;
 
 const ceaserEncode = async (data: {text: string, key: number})=> {
+    console.log("Service Called!");
     const response=  await fetch(`${url}/ceaser/encode`, {
         method: 'POST',
         headers: {
@@ -9,6 +10,7 @@ const ceaserEncode = async (data: {text: string, key: number})=> {
         body: JSON.stringify(data)
     });
     const result = await response.json();
+    console.log(result);
     return result;
 }
 

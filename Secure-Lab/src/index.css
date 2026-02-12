@@ -1,10 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 :root {
-    --primary-color: #82ff2e;
-    --secondary-color: #1B1B1B;
-    --background-color: #121212;
-    --card-background:   #111827;
-    --text-color: #09ad03;
+    /* Professional Dark Theme Palette */
+    --background-color: #0f172a; /* Slate 900 */
+    --surface-color: #1e293b;    /* Slate 800 */
+    --card-background: #1e293b;  /* Slate 800 */
+    
+    --primary-color: #10b981;    /* Emerald 500 - Professional Security Green */
+    --primary-hover: #059669;    /* Emerald 600 */
+    
+    --secondary-color: #38bdf8;  /* Sky 400 - detailed accents */
+    --accent-color: #6366f1;     /* Indigo 500 - subtle highlights */
+    
+    --text-color: #f1f5f9;       /* Slate 100 */
+    --text-muted: #94a3b8;       /* Slate 400 */
+    
+    --error-color: #ff0000;      /* Red 500 */
+    
+    font-family: 'Inter', sans-serif;
+}
 
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background-color); 
+}
+ 
+::-webkit-scrollbar-thumb {
+    background: var(--surface-color); 
+    border-radius: 4px;
+    border: 1px solid var(--background-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted); 
+}
+
+/* Utility Classes */
+.glass-panel {
+    background: rgba(30, 41, 59, 0.7); /* Slate 800 with opacity */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.pro-card {
+    background-color: var(--surface-color);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0.75rem; /* rounded-xl */
+    transition: all 0.2s ease-in-out;
+}
+
+.pro-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-color: var(--primary-color);
+}
+
+.pro-input {
+    background-color: #020617; /* Slate 950 */
+    border: 1px solid var(--surface-color);
+    color: var(--text-color);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease;
+    font-family: 'JetBrains Mono', monospace; /* Keep monospace for inputs */
+}
+
+.pro-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    /* ring: 1px solid var(--primary-color); */
+}
+
+.pro-button {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.pro-button:hover {
+    background-color: var(--primary-hover);
+}
+
+.pro-button-outline {
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.pro-button-outline:hover {
+    background-color: rgba(16, 185, 129, 0.1); /* Primary with opacity */
+}
+
+/* Helper for monospace text areas */
+.font-mono {
+    font-family: 'JetBrains Mono', monospace;
 }

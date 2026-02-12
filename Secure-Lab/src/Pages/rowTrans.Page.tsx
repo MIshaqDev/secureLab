@@ -1,175 +1,182 @@
-import { useForm } from "react-hook-form"
-import React from "react";
+import { useState } from 'react';
+import { useForm } from "react-hook-form";
 import * as rowTransCtrl from '../controller/rowTrans.Controller';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Lock, Unlock, RefreshCw, Copy, ArrowRight, Cpu } from 'lucide-react';
 
 function RowTransPage() {
+    const [activeTab, setActiveTab] = useState<'encode' | 'decode'>('encode');
+    const [result, setResult] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
+    const [copied, setCopied] = useState(false);
 
-    const encodeForm = useForm<{ text: string; key: string }>();
-    const { register, handleSubmit, formState: { errors } } = encodeForm;
-    const decodeForm = useForm<{ text: string; key: string }>();
-    const { register: decodeRegister, handleSubmit: decodeHandleSubmit, formState: { errors: decodeErrors } } = decodeForm;
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<{ text: string; key: string }>();
 
-    // State to hold the result
-    const [encoded, setEncoded] = React.useState<string>("");
-    const [decoded, setDecoded] = React.useState<string>("");
-    const [encodeLoading, setEncodeLoading] = React.useState<boolean>(false);
-    const [decodeLoading, setDecodeLoading] = React.useState<boolean>(false);
+    const onSubmit = async (data: { text: string; key: string }) => {
+        setLoading(true);
+        setResult("");
+        try {
+            await new Promise(resolve => setTimeout(resolve, 300));
 
+            let response;
+            if (activeTab === 'encode') {
+                response = await rowTransCtrl.encodeRowTrans(data);
+                setResult(response.encoded);
+            } else {
+                response = await rowTransCtrl.decodeRowTrans(data);
+                setResult(response.decoded);
+            }
+        } catch (err) {
+            console.error(err);
+            setResult("Error processing request.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    // Encoding and decoding functions
-    function encode(data: { text: string; key: string }) {
-        setEncodeLoading(true);
-        rowTransCtrl.encodeRowTrans(data).then((res) => {
-            setEncoded(res.encoded);
-        }).finally(() => {
-            setEncodeLoading(false);
-        });
+    const handleCopy = () => {
+        if (result) {
+            navigator.clipboard.writeText(result);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        }
+    };
 
-    }
-    // Decoding function
-    function decode(data: { text: string; key: string }) {
-        setDecodeLoading(true);
-        rowTransCtrl.decodeRowTrans(data).then((res) => {
-            setDecoded(res.decoded);
-        }).finally(() => {
-            setDecodeLoading(false);
-        });
-    }
-    // Render the component
     return (
-        <div className="text-[var(--text-color)] flex flex-col items-center gap-12 [&>input]:border bg-[var(--background-color)] min-h-screen pb-10 ">
-            {/* Heading */}
-            <h1 className="text-4xl font-bold mt-6 text-center">Row Transposition Cipher</h1>
-            {/* Description */}
-            <p className="text-xm font-bold text-justify text-xl text-justify max-w-3xl m-10">The Row Transposition cipher is a type of transposition cipher that rearranges the characters of the plaintext into a grid or matrix based on a specified key. The plaintext is written out in rows, and then the columns are read in a specific order determined by the key to create the ciphertext. For example, if the key is '3142', the first column to be read would be the third column of the matrix, followed by the first, fourth, and second columns. This method of encryption does not alter the actual letters of the plaintext but changes their positions, making it more challenging to decipher without knowing the key. The Row Transposition cipher is relatively simple to implement but can be vulnerable to certain types of cryptanalysis if not used with additional security measures.</p>
-            <div className="flex flex-col gap-30 md:flex-row md:gap-20">
-                {/* Encoding form */}
-                <form onSubmit={handleSubmit(encode)} className="flex flex-col items-center gap-4 [&>.input]:border [&>.input]:p-2 [&>.input]:rounded-md [&>span]:text-red-500 text-center text-sm [&>.input]:w-80 [&>.input]:placeholder:font-bold [&>span]:h-2 mb-4 [&>textarea]:min-h-24 [&>.input]:focus:border-[var(--primary-color)] [&>.input]:outline-none">
-                    {/* Encoding form header */}
-                    <h2 className="text-2xl font-bold">Encode</h2>
-                    {/* Textarea for input */}
-                    <textarea
-                        className="input"
-                        {...register("text", { required: "This field is required" })}
-                        placeholder="Enter text to encrypt"
-                        required
-                    />
-                    {/* Error message for text input */}
-                    <span className="">{errors.text?.message}</span>
-                    {/* Range input for key */}
-                    <input
-                        type="text"
-                        className="input"
-                        placeholder="Enter key (digits only, e.g., 5241)"
-                        {...register("key", {
-                            required: "Key is required",
-                            validate: (key: string) => {
-                                key= String(key);
-                                if (typeof key !== "string") return "Invalid key format";
+        <div className="max-w-4xl mx-auto py-8">
+            <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-center mb-10"
+            >
+                <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white flex items-center justify-center gap-3">
+                    <Cpu className="text-red-400" />
+                    Row Transposition
+                </h1>
+                <p className="text-(--text-muted) max-w-2xl mx-auto">
+                    A transposition cipher that rearranges the characters of the plaintext based on the order of columns determined by a key.
+                </p>
+            </motion.div>
 
-                                const trimmed = key.trim();
-                                if (!trimmed) return "Key is required";
+            <div className="pro-card p-1 md:p-8 bg-(--surface-color) shadow-xl relative overflow-hidden">
 
-                                const numbers = trimmed.split("").map(Number);
-
-                                if (numbers.some(isNaN)) return "Key must contain numbers only";
-
-                                if (numbers.length < 2){
-                                    return "Key must contain at least 2 numbers";
-                                }
-
-                                const uniqueNumbers = new Set(numbers);
-                                if (uniqueNumbers.size !== numbers.length)
-                                    return "Numbers must be unique";
-
-                                if (
-                                    Math.max(...numbers) > numbers.length ||
-                                    Math.min(...numbers) < 1
-                                )
-                                    return `Numbers must be from 1 to ${numbers.length}`;
-
-                                return true;
-                                }
-                        })}
-                    />
-
-
-
-                    {/* Error message for key input */}
-                    <span>{errors.key?.message?.toString()}</span>
-                    {/* Encode button */}
-                    <button className="border font-bold text-xl b-2 border-[var(--primary-color)] text-[var(--text-color)] px-4 py-2 rounded-full hover:border-[var(--primary-color)] hover:text-[var(--card-background)] hover:rounded-full hover:bg-[var(--text-color)] mt-5" type="submit" disabled={encodeLoading}>{encodeLoading ? "ENCODING..." : "ENCODE"}</button>
-                    {/* Encoded result display */}
-                    <div className="text-xl text-[var(--primary-color)] border p-5 rounded-md mt-4 max-h-25 min-h-24 overflow-x-auto  whitespace-pre-wrap break-words">
-                        {encoded ? encoded : "Ciphered text will appear here ..."}
+                {/* Tab Switcher */}
+                <div className="flex justify-center mb-8 border-b border-white/5 pb-1">
+                    <div className="flex gap-4">
+                        {(['encode', 'decode'] as const).map((tab) => (
+                            <button
+                                key={tab}
+                                onClick={() => { setActiveTab(tab); setResult(""); reset(); }}
+                                className={`px-6 py-2 rounded-t-lg font-medium transition-all duration-200 flex items-center gap-2 border-b-2 ${activeTab === tab
+                                    ? 'border-red-400 text-red-400 bg-white/5'
+                                    : 'border-transparent text-(--text-muted) hover:text-white hover:bg-white/5'
+                                    }`}
+                            >
+                                {tab === 'encode' ? <Lock size={16} /> : <Unlock size={16} />}
+                                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                            </button>
+                        ))}
                     </div>
-                </form>
-                {/* Decoding form */}
-                <form onSubmit={decodeHandleSubmit(decode)} className="flex flex-col items-center gap-4 [&>.input]:border [&>.input]:p-2 [&>.input]:rounded-md [&>span]:text-red-500 text-center text-sm [&>.input]:w-80 [&>.input]:placeholder:font-bold [&>span]:h-2 mb-4 [&>textarea]:min-h-24 [&>.input]:focus:border-[var(--primary-color)] [&>.input]:outline-none">
+                </div>
 
-                    {/* Decoding form header */}
-                    <h2 className="text-2xl font-bold">Decode</h2>
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={activeTab}
+                        initial={{ opacity: 0, x: activeTab === 'encode' ? -10 : 10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: activeTab === 'encode' ? 10 : -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="w-full"
+                    >
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
 
-                    {/* Textarea for input */}
-                    <textarea
-                        className="input"
-                        {...decodeRegister("text", { required: "This field is required" })}
-                        placeholder="Enter text to decrypt"
-                        required
-                    />
+                            <div className="grid md:grid-cols-2 gap-8">
+                                {/* Input Section */}
+                                <div className="space-y-6">
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-medium text-(--text-muted) flex items-center gap-2">
+                                            Input Text
+                                        </label>
+                                        <textarea
+                                            {...register("text", { required: "Message is required" })}
+                                            className="pro-input w-full h-40 resize-none"
+                                            placeholder={activeTab === 'encode' ? "Enter secret message..." : "Paste encrypted text..."}
+                                        />
+                                        {errors.text && <span className="text-(--error-color) text-xs">{errors.text.message}</span>}
+                                    </div>
 
-                    {/* Error message for text input */}
-                    <span>{decodeErrors.text?.message}</span>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-medium text-(--text-muted) flex items-center justify-between">
+                                            <span>Numeric Key (e.g., 52413)</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            placeholder="e.g., 52413"
+                                            {...register("key", {
+                                                required: "Key is required",
+                                                validate: (key: string) => {
+                                                    if (!/^\d+$/.test(key)) return "Digits only";
+                                                    if (key.length < 2) return "Min 2 digits";
+                                                    const digits = key.split('').map(Number);
+                                                    if (new Set(digits).size !== digits.length) return "Unique digits only";
+                                                    return true;
+                                                }
+                                            })}
+                                            className="pro-input w-full tracking-widest"
+                                        />
+                                        {errors.key && <span className="text-(--error-color) text-xs">{errors.key.message}</span>}
+                                    </div>
 
-                    {/* Range input for key */}
-                    <input
-                        type="text"
-                        className="input"
-                        placeholder="Enter key (digits only, e.g., 5241)"
-                        {...decodeRegister("key", {
-                            required: "Key is required",
-                            validate: (key: string) => {
-                                key= String(key);
-                                if (typeof key !== "string") return "Invalid key format";
+                                    <button
+                                        type="submit"
+                                        disabled={loading}
+                                        className="pro-button w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700"
+                                    >
+                                        {loading ? <RefreshCw className="animate-spin" size={18} /> : (activeTab === 'encode' ? <Lock size={18} /> : <Unlock size={18} />)}
+                                        {loading ? 'Processing...' : (activeTab === 'encode' ? 'Encrypt Message' : 'Decrypt Message')}
+                                    </button>
+                                </div>
 
-                                const trimmed = key.trim();
-                                if (!trimmed) return "Key is required";
-
-                                const numbers = trimmed.split("").map(Number);
-
-                                if (numbers.some(isNaN)) return "Key must contain numbers only";
-
-                                if (numbers.length < 2){
-                                    return "Key must contain at least 2 numbers";
-                                }
-
-                                const uniqueNumbers = new Set(numbers);
-                                if (uniqueNumbers.size !== numbers.length)
-                                    return "Numbers must be unique";
-
-                                if (
-                                    Math.max(...numbers) > numbers.length ||
-                                    Math.min(...numbers) < 1
-                                )
-                                    return `Numbers must be from 1 to ${numbers.length}`;
-
-                                return true;
-                                }
-                        })}
-                    />
-
-                    {/* Error message for key input */}
-                    <span>{decodeErrors.key?.message?.toString()}</span>
-                    {/* Decode button */}
-                    <button className="border font-bold text-xl b-2 border-[var(--primary-color)] text-[var(--text-color)] px-4 py-2 rounded-full hover:border-[var(--primary-color)] hover:text-[var(--card-background)] hover:rounded-full hover:bg-[var(--text-color)]" type="submit" disabled={decodeLoading}>{decodeLoading ? "DECODING..." : "DECODE"}</button>
-                    <div className="text-xl text-[var(--primary-color)] border p-5 rounded-md mt-4 max-h-25 min-h-24 overflow-x-auto  whitespace-pre-wrap break-words">{decoded ? decoded : "Plain text will appear here..."}</div>
-                </form>
+                                {/* Output Section */}
+                                <div className="space-y-2 flex flex-col">
+                                    <label className="text-sm font-medium text-(--text-muted) flex items-center gap-2">
+                                        Result
+                                    </label>
+                                    <div className="relative grow bg-black/20 border border-white/10 rounded-lg p-6 group transition-colors hover:bg-black/30">
+                                        {result ? (
+                                            <motion.div
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                className="h-full flex flex-col"
+                                            >
+                                                <p className="font-mono text-lg text-red-400 wrap-break-word whitespace-pre-wrap leading-relaxed">
+                                                    {result}
+                                                </p>
+                                                <button
+                                                    type="button"
+                                                    onClick={handleCopy}
+                                                    className="absolute top-4 right-4 p-2 rounded-md bg-white/5 text-(--text-muted) hover:text-white hover:bg-white/10 transition-colors"
+                                                    title="Copy to clipboard"
+                                                >
+                                                    {copied ? <span className="text-emerald-500 text-xs font-bold">Copied</span> : <Copy size={18} />}
+                                                </button>
+                                            </motion.div>
+                                        ) : (
+                                            <div className="h-full flex flex-col items-center justify-center text-(--text-muted) opacity-40 gap-3">
+                                                <ArrowRight size={32} />
+                                                <span className="text-sm">Output will appear here</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </motion.div>
+                </AnimatePresence>
             </div>
-            <style>
-
-            </style>
         </div>
-    )
+    );
 }
 
 export default RowTransPage;

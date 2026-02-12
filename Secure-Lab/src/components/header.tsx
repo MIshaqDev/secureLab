@@ -1,87 +1,106 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/Logo.png";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const activeClass = "border-b-2 border-[var(--primary-color)]"; // active link style
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "Secure Lab", path: "/lab" },
+    { name: "About", path: "/about" },
+    { name: "Contact", path: "/contact" },
+  ];
 
   return (
-    <header className="bg-black text-[var(--text-color)] shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-        
-        {/* Logo */}
-        <div className="flex items-center">
-          <img src={logo} alt="Logo" className="w-10 h-10 mr-2" />
-          <h1 className="font-bold text-xl">Secure Lab</h1>
-        </div>
+    <header className="fixed top-0 w-full z-50 bg-[--background-color]/90 backdrop-blur-md border-b border-white/5 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-6">
-          <NavLink
-            to="/"
-            className={({ isActive }) => isActive ? activeClass : "hover:text-[var(--primary-color)]"}
-          >
-            Home
+          {/* Logo Section */}
+          <NavLink to="/" className="flex items-center gap-3">
+            <img src={logo} alt="Secure Lab Logo" className="w-10 h-10 object-contain hover:opacity-90 transition-opacity" />
+            <div className="flex flex-col">
+              <h1 className="font-bold text-xl tracking-wide text-white font-[Inter]">
+                Secure<span className="text-[--primary-color]">Lab</span>
+              </h1>
+            </div>
           </NavLink>
-          <NavLink
-            to="/lab"
-            className={({ isActive }) => isActive ? activeClass : "hover:text-[var(--primary-color)]"}
-          >
-            Secure Lab
-          </NavLink>
-          <NavLink
-            to="/about"
-            className={({ isActive }) => isActive ? activeClass : "hover:text-[var(--primary-color)]"}
-          >
-            About
-          </NavLink>
-          <NavLink
-            to="/contact"
-            className={({ isActive }) => isActive ? activeClass : "hover:text-[var(--primary-color)]"}
-          >
-            Contact
-          </NavLink>
-        </nav>
 
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex space-x-8">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.name}
+                to={link.path}
+                className={({ isActive }) => `
+                  relative py-2 font-medium transition-colors duration-200 text-sm
+                  ${isActive
+                    ? "text-[--primary-color]"
+                    : "text-[--text-muted] hover:text-white"
+                  }
+                `}
+              >
+                {({ isActive }) => (
+                  <>
+                    {link.name}
+                    {isActive && (
+                      <motion.div
+                        layoutId="navbar-underline"
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-[--primary-color] rounded-full"
+                        transition={{ duration: 0.2 }}
+                      />
+                    )}
+                  </>
+                )}
+              </NavLink>
+            ))}
+          </nav>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 text-[--text-muted] hover:text-white transition-colors"
             >
-              {isOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/>
-              )}
-            </svg>
-          </button>
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      {isOpen && (
-        <nav className="md:hidden bg-black text-white flex flex-col px-4 py-2 space-y-2">
-          <NavLink to="/" className={({ isActive }) => isActive ? activeClass : "max-w-fit"}>
-            Home
-          </NavLink>
-          <NavLink to="/lab" className={({ isActive }) => isActive ? activeClass : ""}>
-            Secure Lab
-          </NavLink>
-          <NavLink to="/about" className={({ isActive }) => isActive ? activeClass : ""}>
-            About
-          </NavLink>
-          <NavLink to="/contact" className={({ isActive }) => isActive ? activeClass : ""}>
-            Contact
-          </NavLink>
-        </nav>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.nav
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="md:hidden bg-[--surface-color] border-b border-white/5 overflow-hidden"
+          >
+            <div className="flex flex-col px-4 py-4 space-y-2">
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.name}
+                  to={link.path}
+                  onClick={() => setIsOpen(false)}
+                  className={({ isActive }) => `
+                    block px-4 py-3 rounded-md transition-colors font-medium
+                    ${isActive
+                      ? "bg-[--primary-color]/10 text-[--primary-color]"
+                      : "text-[--text-muted] hover:bg-white/5 hover:text-white"
+                    }
+                  `}
+                >
+                  {link.name}
+                </NavLink>
+              ))}
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

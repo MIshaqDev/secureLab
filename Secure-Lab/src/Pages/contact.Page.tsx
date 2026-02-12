@@ -1,48 +1,107 @@
-function Contact() {
+import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
+import { Send, Mail, MapPin, Phone } from "lucide-react";
+
+function ContactPage() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+    alert("Message Sent (Simulated)");
+  };
+
   return (
-    <div className="w-screen h-screen bg-[var(--background-color)] text-[var(--text-color)] flex flex-col items-center p-10 gap-12 pt-30">
-      
-      <div className="flex flex-col items-center text-center">
-        <h1 className="text-4xl font-bold">Contact</h1>
-        <p className="text-xl text-center max-w-3xl mt-4">
-          Secure Lab is an educational cryptography project built to explore and demonstrate encryption techniques.
-          If you have feedback, suggestions, or would like to explore the codebase, feel free to reach out or visit the project repository.
-        </p>
-      </div>
+    <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start">
 
-      <div className="flex flex-col items-center gap-6">
-        <h4 className="text-3xl font-bold">Get in touch</h4>
-
-        <div className="text-4xl flex gap-8 [&>a]:hover:text-[var(--primary-color)] transition">
-          <a
-            href="mailto:muhammadishaq.dev@gmail.com"
-            aria-label="Email"
-          >
-            <i className="fa-solid fa-envelope"></i>
-          </a>
-
-          <a
-            href="https://github.com/MIshaqDev/secureLab"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub Repository"
-          >
-            <i className="fa-brands fa-github"></i>
-          </a>
-
-          <a 
-            href="https://muhammadishaq.netlify.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Portfolio"
-          >
-            <i className="fa-solid fa-briefcase"></i>
-          </a>
+      {/* Contact Info */}
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+        className="space-y-8"
+      >
+        <div>
+          <h1 className="text-4xl font-bold text-white mb-4">Get in Touch</h1>
+          <p className="text-[--text-muted] text-lg">
+            Have questions about cryptography or want to collaborate? I'd love to hear from you.
+          </p>
         </div>
-      </div>
 
+        <div className="space-y-6">
+          {[
+            { icon: <Mail className="text-[--primary-color]" />, title: "Email", value: "contact@securelab.dev" },
+            { icon: <Phone className="text-[--secondary-color]" />, title: "Phone", value: "+1 (555) 123-4567" },
+            { icon: <MapPin className="text-[--accent-color]" />, title: "Location", value: "Cyber City, Internet" }
+          ].map((item, index) => (
+            <div key={index} className="pro-card p-6 flex items-center gap-4">
+              <div className="p-3 bg-white/5 rounded-lg">
+                {item.icon}
+              </div>
+              <div>
+                <h3 className="font-bold text-white">{item.title}</h3>
+                <p className="text-[--text-muted]">{item.value}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Contact Form */}
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="pro-card p-8 bg-[--surface-color]"
+      >
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-[--text-muted]">Name</label>
+              <input
+                {...register("name", { required: true })}
+                className="pro-input w-full"
+                placeholder="John Doe"
+              />
+              {errors.name && <span className="text-[--error-color] text-xs">Required</span>}
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-[--text-muted]">Email</label>
+              <input
+                {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+                className="pro-input w-full"
+                placeholder="john@example.com"
+              />
+              {errors.email && <span className="text-[--error-color] text-xs">Invalid Email</span>}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-[--text-muted]">Subject</label>
+            <input
+              {...register("subject", { required: true })}
+              className="pro-input w-full"
+              placeholder="Project Inquiry"
+            />
+            {errors.subject && <span className="text-[--error-color] text-xs">Required</span>}
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-[--text-muted]">Message</label>
+            <textarea
+              {...register("message", { required: true })}
+              className="pro-input w-full h-32 resize-none"
+              placeholder="How can we help you?"
+            ></textarea>
+            {errors.message && <span className="text-[--error-color] text-xs">Required</span>}
+          </div>
+
+          <button type="submit" className="pro-button w-full flex items-center justify-center gap-2">
+            Send Message <Send size={18} />
+          </button>
+        </form>
+      </motion.div>
     </div>
   );
 }
 
-export default Contact;
+export default ContactPage;
