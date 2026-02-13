@@ -5,20 +5,10 @@ import logo from "../assets/Logo.png";
 
 function HomePage() {
     return (
-<<<<<<< HEAD
-        <div className="flex flex-col items-center bg-[var(--background-color)] w-screen min-h-screen gap-5 pt-10">
-            <img src={logo} alt="" className="w-30 rounded rounded-full hover:opacity-75" />
-            <h1 className="text-[var(--text-color)] text-4xl font-bold font-[Space Mono] text-center md:text-4xl">Explore the World of Ciphers</h1>
-            <p className="text-[var(--text-color)] m-10 text-2xl font-justify font-[Space Mono] text-center">Welcome to Secure Lab — your interactive cryptography playground. Experiment with classic ciphers like Caesar, Monoalphabetic, Vigenère, and Row Transposition, or explore our modern custom encryption. Enter your text, choose a key, and see your messages transform in real time. Secure Lab is designed to make learning encryption intuitive, hands-on, and fun, whether you’re a student, developer, or just curious about the world of secure communication. Dive in, encrypt your secrets, and discover the art of cryptography!</p>
-            <a className="relative overflow-hidden px-6 py-3 font-bold text-[var(--secondary-color)] rounded-full bg-gradient-to-r from-[var(--primary-color)] to-[#00ffea] group animate-bounce" href="/lab">
-                <span className="absolute inset-0 w-full h-full transition-transform translate-x-[-100%] bg-gradient-to-r from-[#008cff] to-[#33ff00)] group-hover:translate-x-0"></span>
-                <span className="relative z-50">Get Started</span>
-            </a>
-=======
-        <div className="w-full flex flex-col items-center">
+        <section className="flex flex-col items-center justify-center bg-(--background-color) w-screen min-h-screen gap-5">
 
             {/* Hero Section */}
-            <section className="w-full flex flex-col items-center justify-center min-h-[70vh] text-center gap-8 py-10">
+            <div className="flex flex-col items-center justify-center min-h-[70vh] text-center gap-8">
 
                 <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -58,10 +48,10 @@ function HomePage() {
                         <Code size={18} /> Learn More
                     </Link>
                 </motion.div>
-            </section>
+            </div>
 
             {/* Features Grid */}
-            <section className="w-full py-16">
+            <div className="p-10 flex flex-col items-center justify-center">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {[
                         {
@@ -96,10 +86,10 @@ function HomePage() {
                         </motion.div>
                     ))}
                 </div>
-            </section>
+            </div>
 
             {/* Stats Bar */}
-            <section className="w-full border-t border-white/5 py-12">
+            <div className=" border-t border-white/5 w-full p-10">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/5">
                     <div>
                         <span className="block text-3xl font-bold text-[--primary-color]">5+</span>
@@ -120,10 +110,8 @@ function HomePage() {
                         <span className="text-sm text-[--text-muted] uppercase tracking-wider">Active</span>
                     </div>
                 </div>
-            </section>
->>>>>>> ba4bd8f (UI imporved)
-
-        </div>
+            </div>
+        </section>
     );
 }
 

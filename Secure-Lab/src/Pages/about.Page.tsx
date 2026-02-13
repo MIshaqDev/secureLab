@@ -7,7 +7,7 @@ function AboutPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="max-w-4xl mx-auto space-y-12"
+            className="max-w-4xl mx-auto space-y-12 pb-10"
         >
             <div className="text-center space-y-4">
                 <h1 className="text-3xl md:text-5xl font-bold text-white">About the Developer</h1>
@@ -28,13 +28,13 @@ function AboutPage() {
                             <p className="text-(--primary-color) font-medium">Full Stack Developer</p>
                         </div>
                         <div className="flex gap-4 pt-4">
-                            <a href="#" className="p-2 rounded-full bg-white/5 hover:bg-(--primary-color) hover:text-white transition-colors">
+                            <a href="https://github.com/MIshaqDev" className="p-2 rounded-full bg-white/5 hover:bg-(--primary-color) hover:text-white transition-colors">
                                 <Github size={20} />
                             </a>
-                            <a href="#" className="p-2 rounded-full bg-white/5 hover:bg-(--secondary-color) hover:text-white transition-colors">
+                            <a href="https://www.linkedin.com/in/MIshaqDev/" className="p-2 rounded-full bg-white/5 hover:bg-(--secondary-color) hover:text-white transition-colors">
                                 <Linkedin size={20} />
                             </a>
-                            <a href="mailto:ishaq@example.com" className="p-2 rounded-full bg-white/5 hover:bg-(--accent-color) hover:text-white transition-colors">
+                            <a href="mailto:muhammadishaq.dev@gmail.com" className="p-2 rounded-full bg-white/5 hover:bg-(--accent-color) hover:text-white transition-colors">
                                 <Mail size={20} />
                             </a>
                         </div>
@@ -60,7 +60,7 @@ function AboutPage() {
                             <h3 className="text-xl font-bold">Tech Stack</h3>
                         </div>
                         <div className="flex flex-wrap gap-2">
-                            {["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Vite"].map((tech) => (
+                            {["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Vite", "Node.js", "Express"].map((tech) => (
                                 <span key={tech} className="px-3 py-1 rounded-full text-sm bg-white/5 border border-white/10 text-(--text-color)">
                                     {tech}
                                 </span>

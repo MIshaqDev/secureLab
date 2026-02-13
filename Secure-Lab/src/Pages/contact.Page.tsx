@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-import { Send, Mail, MapPin, Phone } from "lucide-react";
+import { Send, Mail, MapPin, Github } from "lucide-react";
 
 function ContactPage() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -18,7 +18,7 @@ function ContactPage() {
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
-        className="space-y-8"
+        className="space-y-8 pb-10"
       >
         <div>
           <h1 className="text-4xl font-bold text-white mb-4">Get in Touch</h1>
@@ -29,9 +29,9 @@ function ContactPage() {
 
         <div className="space-y-6">
           {[
-            { icon: <Mail className="text-[--primary-color]" />, title: "Email", value: "contact@securelab.dev" },
-            { icon: <Phone className="text-[--secondary-color]" />, title: "Phone", value: "+1 (555) 123-4567" },
-            { icon: <MapPin className="text-[--accent-color]" />, title: "Location", value: "Cyber City, Internet" }
+            { icon: <Mail className="text-[--primary-color]" />, title: "Email", value: "muhammadishaq.dev@gmail.com" },
+            { icon: <Github className="text-[--secondary-color]" />, title: "Github", value: "https://github.com/MIshaqDev" },
+            { icon: <MapPin className="text-[--accent-color]" />, title: "Location", value: "Haripur, Pakistan" }
           ].map((item, index) => (
             <div key={index} className="pro-card p-6 flex items-center gap-4">
               <div className="p-3 bg-white/5 rounded-lg">
@@ -56,43 +56,43 @@ function ContactPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-[--text-muted]">Name</label>
+              <label className="text-sm font-medium text-(--text-muted)">Name</label>
               <input
                 {...register("name", { required: true })}
                 className="pro-input w-full"
                 placeholder="John Doe"
               />
-              {errors.name && <span className="text-[--error-color] text-xs">Required</span>}
+              {errors.name && <span className="text-(--error-color) text-xs">Required</span>}
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-[--text-muted]">Email</label>
+              <label className="text-sm font-medium text-(--text-muted)">Email</label>
               <input
                 {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
-                className="pro-input w-full"
+                className="pro-input w-full bg-transparent"
                 placeholder="john@example.com"
               />
-              {errors.email && <span className="text-[--error-color] text-xs">Invalid Email</span>}
+              {errors.email && <span className="text-(--error-color) text-xs">Invalid Email</span>}
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-[--text-muted]">Subject</label>
+            <label className="text-sm font-medium text-(--text-muted)">Subject</label>
             <input
               {...register("subject", { required: true })}
               className="pro-input w-full"
               placeholder="Project Inquiry"
             />
-            {errors.subject && <span className="text-[--error-color] text-xs">Required</span>}
+            {errors.subject && <span className="text-(--error-color) text-xs">Required</span>}
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-[--text-muted]">Message</label>
+            <label className="text-sm font-medium text-(--text-muted)">Message</label>
             <textarea
               {...register("message", { required: true })}
               className="pro-input w-full h-32 resize-none"
               placeholder="How can we help you?"
             ></textarea>
-            {errors.message && <span className="text-[--error-color] text-xs">Required</span>}
+            {errors.message && <span className="text-(--error-color) text-xs">Required</span>}
           </div>
 
           <button type="submit" className="pro-button w-full flex items-center justify-center gap-2">
