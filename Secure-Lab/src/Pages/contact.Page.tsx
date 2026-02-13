@@ -3,12 +3,12 @@ import { motion } from "framer-motion";
 import { Send, Mail, MapPin, Github } from "lucide-react";
 
 function ContactPage() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, formState: { errors } } = useForm();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    alert("Message Sent (Simulated)");
-  };
+  // const onSubmit = (data: any) => {
+  //   console.log(data);
+  //   alert("Message Sent (Simulated)");
+  // };
 
   return (
     <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start">
@@ -53,12 +53,16 @@ function ContactPage() {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="pro-card p-8 bg-[--surface-color]"
       >
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form action="https://formspree.io/f/mreapoqp"
+          method="POST"
+          className="space-y-6">
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className="text-sm font-medium text-(--text-muted)">Name</label>
               <input
                 {...register("name", { required: true })}
+                name="name"
+                type="text"
                 className="pro-input w-full"
                 placeholder="John Doe"
               />
@@ -68,6 +72,8 @@ function ContactPage() {
               <label className="text-sm font-medium text-(--text-muted)">Email</label>
               <input
                 {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+                name="email"
+                type="email"
                 className="pro-input w-full bg-transparent"
                 placeholder="john@example.com"
               />
@@ -79,6 +85,8 @@ function ContactPage() {
             <label className="text-sm font-medium text-(--text-muted)">Subject</label>
             <input
               {...register("subject", { required: true })}
+              name="subject"
+              type="text"
               className="pro-input w-full"
               placeholder="Project Inquiry"
             />
@@ -89,6 +97,7 @@ function ContactPage() {
             <label className="text-sm font-medium text-(--text-muted)">Message</label>
             <textarea
               {...register("message", { required: true })}
+              name="message"
               className="pro-input w-full h-32 resize-none"
               placeholder="How can we help you?"
             ></textarea>
