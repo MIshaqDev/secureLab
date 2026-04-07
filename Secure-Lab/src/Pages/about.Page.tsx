@@ -28,10 +28,10 @@ function AboutPage() {
                             <p className="text-(--primary-color) font-medium">Full Stack Developer</p>
                         </div>
                         <div className="flex gap-4 pt-4">
-                            <a href="https://github.com/MIshaqDev" className="p-2 rounded-full bg-white/5 hover:bg-(--primary-color) hover:text-white transition-colors">
+                            <a href="https://github.com/mishaqsec" className="p-2 rounded-full bg-white/5 hover:bg-(--primary-color) hover:text-white transition-colors">
                                 <Github size={20} />
                             </a>
-                            <a href="https://www.linkedin.com/in/MIshaqDev/" className="p-2 rounded-full bg-white/5 hover:bg-(--secondary-color) hover:text-white transition-colors">
+                            <a href="https://www.linkedin.com/in/mishaqsec/" className="p-2 rounded-full bg-white/5 hover:bg-(--secondary-color) hover:text-white transition-colors">
                                 <Linkedin size={20} />
                             </a>
                             <a href="mailto:muhammadishaq.dev@gmail.com" className="p-2 rounded-full bg-white/5 hover:bg-(--accent-color) hover:text-white transition-colors">
